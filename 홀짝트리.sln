@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "홀짝트리", "홀짝트리\홀짝트리.vcxproj", "{9094B739-2F74-4412-B9DC-7C9E3EEA133F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9094B739-2F74-4412-B9DC-7C9E3EEA133F}.Debug|x64.ActiveCfg = Debug|x64
+		{9094B739-2F74-4412-B9DC-7C9E3EEA133F}.Debug|x64.Build.0 = Debug|x64
+		{9094B739-2F74-4412-B9DC-7C9E3EEA133F}.Debug|x86.ActiveCfg = Debug|Win32
+		{9094B739-2F74-4412-B9DC-7C9E3EEA133F}.Debug|x86.Build.0 = Debug|Win32
+		{9094B739-2F74-4412-B9DC-7C9E3EEA133F}.Release|x64.ActiveCfg = Release|x64
+		{9094B739-2F74-4412-B9DC-7C9E3EEA133F}.Release|x64.Build.0 = Release|x64
+		{9094B739-2F74-4412-B9DC-7C9E3EEA133F}.Release|x86.ActiveCfg = Release|Win32
+		{9094B739-2F74-4412-B9DC-7C9E3EEA133F}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D3D19745-410C-448E-853B-2868B8FE5B3E}
+	EndGlobalSection
+EndGlobal
