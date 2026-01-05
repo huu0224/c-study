@@ -1,0 +1,52 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int n, int[][] q, int[] ans) {
+        int answer = 0;
+
+        // 1부터 n까지의 숫자 중 5개를 뽑는 모든 조합을 탐색 (완전 탐색)
+        // n이 최대 30이므로 30C5 = 142,506가지의 경우의 수만 존재합니다.
+        for (int i = 1; i <= n - 4; i++) {
+            for (int j = i + 1; j <= n - 3; j++) {
+                for (int k = j + 1; k <= n - 2; k++) {
+                    for (int l = k + 1; l <= n - 1; l++) {
+                        for (int p = l + 1; p <= n; p++) {
+                            
+                            // 현재 선택된 5개의 숫자 조합
+                            int[] currentCombo = {i, j, k, l, p};
+                            
+                            // 모든 시도(q)에 대해 조건이 맞는지 검사
+                            if (checkValid(currentCombo, q, ans)) {
+                                answer++;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return answer;
+    }
+
+    // 현재 조합이 모든 질문(q)과 응답(ans)을 만족하는지 확인하는 함수
+    private boolean checkValid(int[] combo, int[][] queries, int[] answers) {
+        for (int i = 0; i < queries.length; i++) {
+            int matchCount = 0;
+            // 현재 조합의 숫자들과 질문의 숫자들을 비교하여 일치하는 개수 계산
+            for (int num : combo) {
+                for (int target : queries[i]) {
+                    if (num == target) {
+                        matchCount++;
+                        break; // 일치하는 것을 찾았으므로 다음 num으로 이동
+                    }
+                }
+            }
+            
+            // 질문의 응답(answers[i])과 실제 일치 개수가 다르면 이 조합은 불가능함
+            if (matchCount != answers[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
