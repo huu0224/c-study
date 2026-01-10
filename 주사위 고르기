@@ -1,0 +1,62 @@
+#include <vector>
+#include <algorithm>
+#include <map>
+
+using namespace std;
+
+// 주사위들의 모든 합의 경우의 수를 구하는 함수 (DFS)
+void getSums(int idx, int currentSum, const vector<int>& diceIndices, const vector<vector<int>>& dice, vector<int>& sums) {
+    if (idx == diceIndices.size()) {
+        sums.push_back(currentSum);
+        return;
+    }
+    for (int score : dice[diceIndices[idx]]) {
+        getSums(idx + 1, currentSum + score, diceIndices, dice, sums);
+    }
+}
+
+vector<int> solution(vector<vector<int>> dice) {
+    int n = dice.size();
+    int r = n / 2;
+    vector<int> answer;
+    int maxWins = -1;
+
+    // 1. 조합 생성을 위한 0과 1의 비트 마스크 준비 (0은 A가 선택)
+    vector<int> combinationMask(n, 1);
+    fill(combinationMask.begin(), combinationMask.begin() + r, 0);
+
+    do {
+        vector<int> aIndices, bIndices;
+        for (int i = 0; i < n; ++i) {
+            if (combinationMask[i] == 0) aIndices.push_back(i);
+            else bIndices.push_back(i);
+        }
+
+        // 2. A와 B 각각의 모든 합산 리스트 생성
+        vector<int> aSums, bSums;
+        getSums(0, 0, aIndices, dice, aSums);
+        getSums(0, 0, bIndices, dice, bSums);
+
+        // 3. 이분 탐색을 위해 B의 합산 리스트 정렬
+        sort(bSums.begin(), bSums.end());
+
+        int currentWins = 0;
+        for (int aSum : aSums) {
+            // A의 점수보다 낮은 B의 점수의 개수 계산
+            currentWins += lower_bound(bSums.begin(), bSums.end(), aSum) - bSums.begin();
+        }
+
+        // 4. 최대 승수 갱신 및 최적 인덱스 저장
+        if (currentWins > maxWins) {
+            maxWins = currentWins;
+            answer.clear();
+            for (int idx : aIndices) {
+                answer.push_back(idx + 1); // 1-indexed로 변환
+            }
+        }
+
+    } while (next_permutation(combinationMask.begin(), combinationMask.end()));
+
+    sort(answer.begin(), answer.end());
+    return answer;
+}
