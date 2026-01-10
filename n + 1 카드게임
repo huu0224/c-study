@@ -1,0 +1,61 @@
+#include <vector>
+#include <set>
+
+using namespace std;
+
+// 특정 셋에서 합이 target이 되는 쌍을 찾아 제거하는 함수
+bool find_and_remove_pair(set<int>& s1, set<int>& s2, int target) {
+    for (int num : s1) {
+        if (s2.count(target - num)) {
+            s1.erase(num);
+            s2.erase(target - num);
+            return true;
+        }
+    }
+    return false;
+}
+
+int solution(int coin, vector<int> cards) {
+    int n = cards.size();
+    int target = n + 1;
+    int initial_count = n / 3;
+    
+    set<int> my_hand;      // 처음에 받은 카드들
+    set<int> draw_pool;    // 라운드마다 뽑아서 보관 중인 카드들 (코인 지불 전)
+    
+    // 1. 초기 카드 뭉치 구성
+    for (int i = 0; i < initial_count; ++i) {
+        my_hand.insert(cards[i]);
+    }
+    
+    int current_round = 1;
+    int card_idx = initial_count;
+    
+    // 2. 라운드 진행
+    while (card_idx < n) {
+        // 이번 라운드 카드 2장 뽑기
+        draw_pool.insert(cards[card_idx++]);
+        draw_pool.insert(cards[card_idx++]);
+        
+        // 우선순위 1: 내 손에 있는 카드들로만 해결 (0코인)
+        if (find_and_remove_pair(my_hand, my_hand, target)) {
+            current_round++;
+        }
+        // 우선순위 2: 내 손의 카드 1장 + 뽑은 카드 1장으로 해결 (1코인)
+        else if (coin >= 1 && find_and_remove_pair(my_hand, draw_pool, target)) {
+            coin -= 1;
+            current_round++;
+        }
+        // 우선순위 3: 뽑은 카드들 중에서 2장으로 해결 (2코인)
+        else if (coin >= 2 && find_and_remove_pair(draw_pool, draw_pool, target)) {
+            coin -= 2;
+            current_round++;
+        }
+        // 더 이상 버틸 수 없음
+        else {
+            break;
+        }
+    }
+    
+    return current_round;
+}
