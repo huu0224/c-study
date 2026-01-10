@@ -1,0 +1,35 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+
+// tops_len은 배열 tops의 길이입니다.
+int solution(int n, int tops[], size_t tops_len) {
+    const int MOD = 10007; // 결과값을 나눌 나머지 값
+    
+    // a: 현재 단계에서 오른쪽으로 튀어나온 마름모가 없는 경우의 수
+    // b: 현재 단계에서 오른쪽으로 튀어나온 마름모가 있는 경우의 수
+    long long a = 1; 
+    long long b = 0;
+    
+    for (int i = 0; i < n; i++) {
+        long long prev_a = a;
+        long long prev_b = b;
+        
+        if (tops[i] == 1) {
+            // i+1번째 삼각형 위에 정삼각형이 붙어 있는 경우
+            // a = (이전 a * 3) + (이전 b * 2)
+            a = (prev_a * 3 + prev_b * 2) % MOD;
+            // b = 이전 a + 이전 b
+            b = (prev_a + prev_b) % MOD;
+        } else {
+            // 위에 정삼각형이 붙어 있지 않은 경우
+            // a = (이전 a * 2) + 이전 b
+            a = (prev_a * 2 + prev_b) % MOD;
+            // b = 이전 a + 이전 b
+            b = (prev_a + prev_b) % MOD;
+        }
+    }
+    
+    // 최종 결과는 마지막 단계의 두 상태를 합산한 값입니다.
+    return (int)((a + b) % MOD);
+}
